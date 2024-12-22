@@ -67,3 +67,19 @@ class Limit:
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.rect)
+
+class Score:
+    def __init__(self, x, y, font_size):
+        self.x = x
+        self.y = y
+        self.value = 0 # Initial score
+        self.font = pygame.font.Font("Pixeltype.ttf", font_size)
+        self.color = (255, 255, 255)
+
+    def draw(self, screen):
+        text = self.font.render(str(self.value), True, self.color)
+        screen.blit(text, (self.x, self.y))
+    def increment(self):
+        self.value += 1
+    def getvalue(self):
+        return self.value
