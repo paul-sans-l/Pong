@@ -1,4 +1,3 @@
-
 import pygame
 
 class Ball:
@@ -73,7 +72,7 @@ class Score:
         self.x = x
         self.y = y
         self.value = 0 # Initial score
-        self.font = pygame.font.Font("Pixeltype.ttf", font_size)
+        self.font = pygame.font.Font("Font/Pixeltype.ttf", font_size)
         self.color = (255, 255, 255)
 
     def draw(self, screen):
@@ -83,3 +82,31 @@ class Score:
         self.value += 1
     def getvalue(self):
         return self.value
+class Button:
+    def __init__(self, x, y, width, height, text, font_size):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.text = text
+        self.font = pygame.font.Font("Font/Pixel Game.otf", font_size)
+        self.color = (255, 255, 255)
+        self.rect = pygame.Rect(x, y, width, height)
+        self.image = pygame.image.load("Object/download (1).png")
+        self.image = pygame.transform.scale(self.image, (width, height))
+
+    def draw(self, screen):
+        # Create a temporary surface to combine the image and text
+        temp_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        temp_surface.blit(self.image, (0, 0))
+        
+        # Render the text
+        text = self.font.render(self.text, True, (255, 255, 255))
+        text_rect = text.get_rect(center=(self.width//2 + 20, self.height//2 + 55))
+        temp_surface.blit(text, text_rect)
+        
+        # Blit the combined surface onto the screen
+        screen.blit(temp_surface, self.rect.topleft)
+
+    def is_clicked(self, pos):
+        return self.rect.collidepoint(pos)
