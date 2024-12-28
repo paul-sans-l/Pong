@@ -1,3 +1,4 @@
+import random
 import pygame
 
 class Ball:
@@ -5,14 +6,33 @@ class Ball:
         self.x = x
         self.y = y
         self.radius = radius
+        self.image_rect = None
         self.color = (255, 255, 255)  # White
-        self.dx = 5  # Horizontal velocity
-        self.dy = 5  # Vertical velocity
+        self.dx = 5 *(random.choice([1, -1]))  # Randomly choose initial direction
+        self.dy = 5  *(random.choice([1, -1]))  # Randomly choose initial direction
         self.rect = pygame.Rect(x - radius, y - radius, radius * 2, radius * 2)
         self.height = height
 
     def draw(self, screen):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+
+    def drawDirection(self, screen):
+        arrow_image = pygame.image.load("Object/Arrow.png")
+        arrow_image = pygame.transform.scale(arrow_image, (50, 50))
+        
+        # Determine the angle based on the direction of the ball
+        if self.dx > 0 and self.dy > 0:
+            angle = -45  # (1, 1)
+        elif self.dx < 0 and self.dy > 0:
+            angle = -135  # (-1, 1)
+        elif self.dx > 0 and self.dy < 0:
+            angle = 45  # (1, -1)
+        elif self.dx < 0 and self.dy < 0:
+            angle = 135  # (-1, -1)
+        
+        rotated_image = pygame.transform.rotate(arrow_image, angle)
+        self.image_rect = rotated_image.get_rect(center=(self.x + 10*self.dx, self.y + 10*self.dy))
+        screen.blit(rotated_image, self.image_rect.topleft)
 
     def update(self):
         self.x += self.dx
@@ -27,6 +47,8 @@ class Ball:
 
     def reverse_direction(self):
         self.dx = -self.dx
+    def get_direction_rect(self):
+        return self.image_rect
 
 
 class Stick:
