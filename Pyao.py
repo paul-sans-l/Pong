@@ -43,7 +43,7 @@ while True:
             if start.is_clicked(mouse_pos):
                 game_started = True
         # Check if the pause button is clicked
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and game_started:
             game_paused = not game_paused
 
     BACKGROUND_COLOR = (a, b, c)
@@ -65,6 +65,14 @@ while True:
                 font = pygame.font.Font("Font/Pixeltype.ttf", 72)
                 for i in range(3, 0, -1):
                     screen.fill(BACKGROUND_COLOR)
+                    ball.draw(screen)
+                    stick1.draw(screen)
+                    stick2.draw(screen)
+                    limit1.draw(screen)
+                    limit2.draw(screen)
+                    score1.draw(screen)
+                    score2.draw(screen)
+                    ball.drawDirection(screen)
                     text = font.render(str(i), True, (255, 255, 255))
                     screen.blit(text, (SCREEN_WIDTH//2 - 20, SCREEN_HEIGHT//2 - 36))
                     pygame.display.flip()
@@ -137,21 +145,21 @@ while True:
             score2.draw(screen)
             
             if just_started:
-                    for _ in range(6):  # Blink 3 times
-                        ball.draw(screen)
-                        stick1.draw(screen)
-                        stick2.draw(screen)
-                        limit1.draw(screen)
-                        limit2.draw(screen)
-                        score1.draw(screen)
-                        score2.draw(screen)
-                        screen.fill(BACKGROUND_COLOR, ball.get_direction_rect())  # Clear only the arrow area
-                        pygame.display.flip()
-                        pygame.time.wait(500)
-                        ball.drawDirection(screen)
-                        pygame.display.flip()
-                        pygame.time.wait(500)
-                    just_started = False
+                for _ in range(6):  # Blink 3 times
+                    ball.draw(screen)
+                    stick1.draw(screen)
+                    stick2.draw(screen)
+                    limit1.draw(screen)
+                    limit2.draw(screen)
+                    score1.draw(screen)
+                    score2.draw(screen)
+                    screen.fill(BACKGROUND_COLOR, ball.get_direction_rect())  # Clear only the arrow area
+                    pygame.display.flip()
+                    pygame.time.wait(500)
+                    ball.drawDirection(screen)
+                    pygame.display.flip()
+                    pygame.time.wait(500)
+                just_started = False
         else:
             font = pygame.font.Font("Font/Pixeltype.ttf", 72)
             text = font.render("Game Paused", True, (255, 255, 255))
